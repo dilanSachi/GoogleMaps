@@ -154,11 +154,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             Log.d(TAG, "Current data: " + snapshot.getData());
                             Map<String,Object> data = snapshot.getData();
                             GeoPoint loc = (GeoPoint) data.get("Location");
-                            Toast.makeText(MapActivity.this,"longi "+loc.getLatitude(), Toast.LENGTH_SHORT).show();
 
                             marker.setPosition(new LatLng(loc.getLatitude(), loc.getLongitude()));
-                            Toast.makeText(MapActivity.this, "Location updated", Toast.LENGTH_SHORT).show();
-                            //marker.setTitle("Hello world");
+                            Toast.makeText(MapActivity.this, "Location updated" +loc.getLatitude(), Toast.LENGTH_SHORT).show();
 
                         } else {
                             Log.d(TAG, "Current data: null");
