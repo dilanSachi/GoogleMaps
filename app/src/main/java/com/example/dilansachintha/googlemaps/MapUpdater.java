@@ -82,7 +82,7 @@ public class MapUpdater extends Thread {
 
         while (check) {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(3000);
                 update();
                 //Toast.makeText(MapActivity.this,"Thread wakened",Toast.LENGTH_SHORT).show();
                 System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");

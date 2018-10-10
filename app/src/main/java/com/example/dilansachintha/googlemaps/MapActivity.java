@@ -24,13 +24,17 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -151,6 +155,43 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         btnGetAnotherLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                final DocumentReference docRef = db.collection("users").document("NQGImEUFnXuvLINNSd7K");
+
+
+
+                docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+
+                    final Marker marker = gMap.addMarker(new MarkerOptions().position(new LatLng(6.5,79)).title("Hey"));
+
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            Toast.makeText(MapActivity.this, "Location get failed", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (snapshot != null && snapshot.exists()) {
+                            Log.d(TAG, "Current data: " + snapshot.getData());
+                            Map<String,Object> data = snapshot.getData();
+                            GeoPoint loc = (GeoPoint) data.get("Location");
+                            Toast.makeText(MapActivity.this,"longi "+loc.getLatitude(), Toast.LENGTH_SHORT).show();
+
+                            marker.setPosition(new LatLng(loc.getLatitude(), loc.getLongitude()));
+                            Toast.makeText(MapActivity.this, "Location updated", Toast.LENGTH_SHORT).show();
+                            //marker.setTitle("Hello world");
+
+                        } else {
+                            Log.d(TAG, "Current data: null");
+                        }
+                    }
+                });
+
+
+                /*
+
                 db.collection("users")
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -168,7 +209,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                     Log.w(TAG, "Error getting documents.", task.getException());
                                 }
                             }
-                        });
+                        });*/
             }
         });
     }
