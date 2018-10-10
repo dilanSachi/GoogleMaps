@@ -27,8 +27,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,10 +34,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -62,6 +57,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
 
+    private static MapUpdater mapUpdater;
+
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting device location");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -73,7 +70,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "onComplete: found location");
+                            Log.d(TAG, "onComplete: Found your location");
                             Location currentLocation = (Location) task.getResult();
                             myLocation = currentLocation;
                             System.out.println(currentLocation.toString());
@@ -104,6 +101,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        final String bus_id= getIntent().getStringExtra("bus_id");
+
         setContentView(R.layout.activity_map);
         getLocationPermission();
 
@@ -112,43 +112,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         final Button btnStopJourney = (Button) findViewById(R.id.btnStopJourney);
 
         btnStartJourney.setOnClickListener(new View.OnClickListener() {
+
+            //MapUpdater mapUpdater;
+
             @Override
             public void onClick(View v) {
 
-                final MapUpdater mapUpdater = new MapUpdater(mFusedLocationProviderClient,MapActivity.this, db);
+                mapUpdater = new MapUpdater(mFusedLocationProviderClient,MapActivity.this, db);
 
                 mapUpdater.start();
+            }
+        });
 
-                btnStopJourney.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mapUpdater.setCheck(false);
-                    }
-                });
-
-
-                //Map<String, Object> user = new HashMap<>();
-
-                        //new GeoPoint(myLocation.getLatitude(),myLocation.getLongitude());
-                //user.put("name", "Ada");
-                //user.put("Location", geoPoint);
-
-                /*db.collection("users")
-                        .add(user)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                Toast.makeText(MapActivity.this,"Added data",Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error adding document", e);
-                                Toast.makeText(MapActivity.this,"Failed to add data",Toast.LENGTH_SHORT).show();
-                            }
-                        });*/
+        btnStopJourney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mapUpdater.setCheck(false);
             }
         });
 
@@ -156,9 +135,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
 
-                final DocumentReference docRef = db.collection("users").document("NQGImEUFnXuvLINNSd7K");
-
-
+                final DocumentReference docRef = db.collection("users").document(bus_id);
 
                 docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
 
@@ -188,28 +165,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         }
                     }
                 });
-
-
-                /*
-
-                db.collection("users")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        Log.d(TAG, document.getId() + " => " + document.getData());
-                                        GeoPoint point = document.getGeoPoint("Location");
-                                        gMap.addMarker(new MarkerOptions()
-                                                .position(new LatLng(point.getLatitude(), point.getLongitude()))
-                                                .title("Hello world"));
-                                    }
-                                } else {
-                                    Log.w(TAG, "Error getting documents.", task.getException());
-                                }
-                            }
-                        });*/
             }
         });
     }

@@ -2,7 +2,6 @@ package com.example.dilansachintha.googlemaps;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,13 +11,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,11 +24,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = new Intent(MainActivity.this, PassengerMap.class);
+        startActivity(intent);
+/*
         if(isServicesOK()){
             init();
-        }
+        }*/
     }
-
+/*
     private void init(){
         Button btnMap = (Button) findViewById(R.id.btnMap);
         btnMap.setOnClickListener(new View.OnClickListener() {
@@ -63,5 +59,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
-
+*/
 }
