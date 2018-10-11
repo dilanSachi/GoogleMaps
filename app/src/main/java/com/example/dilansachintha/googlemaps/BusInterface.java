@@ -22,7 +22,7 @@ public class BusInterface extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_interface);
 
-        Button btnMap = (Button) findViewById(R.id.btnMap);
+        Button btnMap = (Button) findViewById(R.id.btn_bus_map);
         Button btnSignOut = (Button) findViewById(R.id.btn_sign_out);
 
         btnMap.setOnClickListener(new View.OnClickListener() {
@@ -52,7 +52,7 @@ public class BusInterface extends AppCompatActivity {
     private void init(){
 
         if(isServicesOK()){
-            Intent intent = new Intent(BusInterface.this, PassengerMap.class);
+            Intent intent = new Intent(BusInterface.this, BusMap.class);
             startActivity(intent);
         }else{
 

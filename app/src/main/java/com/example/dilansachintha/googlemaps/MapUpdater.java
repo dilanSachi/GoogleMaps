@@ -13,6 +13,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
@@ -55,7 +57,11 @@ public class MapUpdater extends Thread {
 
                     GeoPoint geoPoint = new GeoPoint(location1.getLatitude(), location1.getLongitude());
 
-                    DocumentReference docRef = db.collection("users").document("NQGImEUFnXuvLINNSd7K");
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                    String email = user.getEmail();
+
+                    DocumentReference docRef = db.collection("users").document(email);
 
                     docRef.update("Location", geoPoint).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override

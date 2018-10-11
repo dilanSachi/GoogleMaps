@@ -48,7 +48,7 @@ public class PassengerInterface extends AppCompatActivity {
         Button btn_route_search = (Button) findViewById(R.id.btn_search_route);
         Button btn_sign_out = (Button) findViewById(R.id.btn_sign_out);
         final TextInputEditText txt_route = (TextInputEditText)findViewById(R.id.txt_route_no);
-        final Button btn_map = (Button) findViewById(R.id.btnMap);
+        final Button btn_map = (Button) findViewById(R.id.btn_passenger_Map);
         btn_map.setVisibility(View.INVISIBLE);
 
         btn_route_search.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +89,7 @@ public class PassengerInterface extends AppCompatActivity {
                                                     textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                                                             LinearLayout.LayoutParams.WRAP_CONTENT));
                                                     textView.setText(group.get(i));
-                                                    textView.setPadding(20, 20, 20, 20);// in pixels (left, top, right, bottom)
+                                                    textView.setPadding(30, 20, 20, 20);// in pixels (left, top, right, bottom)
                                                     routeLayout.addView(textView);
 
                                                     bus_id[i] =(String ) group.get(i);
@@ -134,7 +134,7 @@ public class PassengerInterface extends AppCompatActivity {
     private void init(){
 
         if(isServicesOK()){
-            Intent intent = new Intent(PassengerInterface.this, BusMap.class);
+            Intent intent = new Intent(PassengerInterface.this, PassengerMap.class);
             intent.putExtra("bus_id", bus_id);
             startActivity(intent);
         }else{

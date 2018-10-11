@@ -72,7 +72,7 @@ public class SignInActivity extends AppCompatActivity {
                                                             if (document.getId().equals(email) && document.getData().get("Type").equals("Passenger")) {
                                                                 Intent intent = new Intent(SignInActivity.this, PassengerInterface.class);
                                                                 startActivity(intent);
-                                                            } else if (document.getId().toString() == email && document.getData().get("Type") == "Bus") {
+                                                            } else if (document.getId().equals(email) && document.getData().get("Type").equals("Bus")) {
                                                                 Intent intent = new Intent(SignInActivity.this, BusInterface.class);
                                                                 startActivity(intent);
                                                             }

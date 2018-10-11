@@ -45,8 +45,6 @@ public class PassengerMap extends AppCompatActivity implements OnMapReadyCallbac
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
 
-    private static MapUpdater mapUpdater;
-
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting device location");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);

@@ -23,6 +23,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
@@ -61,7 +63,7 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
                             Log.d(TAG, "onComplete: Found your location");
                             Location currentLocation = (Location) task.getResult();
                             myLocation = currentLocation;
-                            System.out.println(currentLocation.toString());
+                            //System.out.println(currentLocation.toString());
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
 
                         } else {
@@ -92,7 +94,7 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
 
         final String[] bus_id= getIntent().getStringArrayExtra("bus_id");
 
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_bus_map);
         getLocationPermission();
 
         //if dapn
@@ -101,7 +103,7 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
         final Button btnStopJourney = (Button) findViewById(R.id.btnStopJourney);
 
         btnStartJourney.setOnClickListener(new View.OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
 
