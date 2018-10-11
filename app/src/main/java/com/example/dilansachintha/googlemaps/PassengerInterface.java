@@ -134,7 +134,7 @@ public class PassengerInterface extends AppCompatActivity {
     private void init(){
 
         if(isServicesOK()){
-            Intent intent = new Intent(PassengerInterface.this, MapActivity.class);
+            Intent intent = new Intent(PassengerInterface.this, BusMap.class);
             intent.putExtra("bus_id", bus_id);
             startActivity(intent);
         }else{
