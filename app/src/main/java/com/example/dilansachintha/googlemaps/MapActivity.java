@@ -107,6 +107,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
         getLocationPermission();
 
+        //if dapn
+
         Button btnStartJourney = (Button) findViewById(R.id.btnStartJourney);
         Button btnGetAnotherLocation = (Button) findViewById(R.id.btnGetOtherLocation);
         final Button btnStopJourney = (Button) findViewById(R.id.btnStopJourney);
@@ -137,67 +139,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 LocationGetter lg = new LocationGetter(mFusedLocationProviderClient,MapActivity.this,db, bus_id, gMap);
                 lg.getter();
-/*
-                for(int i=0;i<bus_id.length;i++){
-                    final DocumentReference docRef = db.collection("users").document(bus_id[i]);
-
-                    docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-
-                        final Marker marker = gMap.addMarker(new MarkerOptions().position(new LatLng(6.5,79)).title("Hey").visible(false));
-
-                        @Override
-                        public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                            @Nullable FirebaseFirestoreException e) {
-                            if (e != null) {
-                                Log.w(TAG, "Listen failed.", e);
-                                Toast.makeText(MapActivity.this, "Location get failed", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-
-                            if (snapshot != null && snapshot.exists()) {
-                                Log.d(TAG, "Current data: " + snapshot.getData());
-                                Map<String,Object> data = snapshot.getData();
-                                GeoPoint loc = (GeoPoint) data.get("Location");
-
-                                marker.setPosition(new LatLng(loc.getLatitude(), loc.getLongitude()));
-                                marker.setVisible(true);
-                                Toast.makeText(MapActivity.this, "Location updated" +loc.getLatitude(), Toast.LENGTH_SHORT).show();
-
-                            } else {
-                                Log.d(TAG, "Current data: null");
-                            }
-                        }
-                    });
-                }*/
-/*
-                final DocumentReference docRef = db.collection("users").document(bus_id);
-
-                docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-
-                    final Marker marker = gMap.addMarker(new MarkerOptions().position(new LatLng(6.5,79)).title("Hey"));
-
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                        @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.w(TAG, "Listen failed.", e);
-                            Toast.makeText(MapActivity.this, "Location get failed", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        if (snapshot != null && snapshot.exists()) {
-                            Log.d(TAG, "Current data: " + snapshot.getData());
-                            Map<String,Object> data = snapshot.getData();
-                            GeoPoint loc = (GeoPoint) data.get("Location");
-
-                            marker.setPosition(new LatLng(loc.getLatitude(), loc.getLongitude()));
-                            Toast.makeText(MapActivity.this, "Location updated" +loc.getLatitude(), Toast.LENGTH_SHORT).show();
-
-                        } else {
-                            Log.d(TAG, "Current data: null");
-                        }
-                    }
-                });*/
             }
         });
     }
