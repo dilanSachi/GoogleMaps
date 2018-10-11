@@ -10,7 +10,9 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.List;
+import java.util.Map;
+
 
 public class PassengerMap extends AppCompatActivity {
 
@@ -31,7 +36,7 @@ public class PassengerMap extends AppCompatActivity {
 
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private String bus_id;
+    private String[] bus_id;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,7 +46,7 @@ public class PassengerMap extends AppCompatActivity {
 
         Button btn_route_search = (Button) findViewById(R.id.btn_search_route);
         final TextInputEditText txt_route = (TextInputEditText)findViewById(R.id.txt_route_no);
-        final TextView txt_bus = (TextView) findViewById(R.id.txt_list_bus);
+        //final TextView txt_bus = (TextView) findViewById(R.id.txt_list_bus);
         final Button btn_map = (Button) findViewById(R.id.btnMap);
         btn_map.setVisibility(View.INVISIBLE);
 
@@ -62,13 +67,33 @@ public class PassengerMap extends AppCompatActivity {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             Log.d(TAG, document.getId() + " => " + document.getData());
 
-                                            Toast.makeText(PassengerMap.this, document.getId(), Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(PassengerMap.this, document.getId(), Toast.LENGTH_SHORT).show();
+
+                                            Map<String,Object> data = document.getData();
+                                            //System.out.println(data.containsKey("Bus")+"fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+
+                                            List<String> group = (List<String>) data.get("Bus");
 
                                             if(document.getId().equals(route)){
                                                 Toast.makeText(PassengerMap.this, "Found the Route No", Toast.LENGTH_SHORT).show();
 
-                                                txt_bus.setText(document.getString("bus"));
-                                                bus_id = document.getString("bus");
+                                                Toast.makeText(PassengerMap.this, group.get(0), Toast.LENGTH_SHORT).show();
+
+                                                LinearLayout routeLayout = (LinearLayout) findViewById(R.id.linear_layout_bus);
+
+                                                bus_id = new String[group.size()];
+
+                                                for(int i=0; i< group.size();i++){
+                                                    TextView textView = new TextView(PassengerMap.this);
+                                                    textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                                                            LinearLayout.LayoutParams.WRAP_CONTENT));
+                                                    textView.setText(group.get(i));
+                                                    textView.setPadding(20, 20, 20, 20);// in pixels (left, top, right, bottom)
+                                                    routeLayout.addView(textView);
+
+                                                    bus_id[i] =(String ) group.get(i);
+                                                }
+
                                                 btn_map.setVisibility(View.VISIBLE);
 
                                             }else{
