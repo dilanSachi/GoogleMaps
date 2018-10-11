@@ -1,5 +1,6 @@
 package com.example.dilansachintha.googlemaps;
 
+import android.Manifest;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -61,8 +62,6 @@ public class SignInActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 Toast.makeText(SignInActivity.this,"Database gave data",Toast.LENGTH_SHORT).show();
                                 if (task.isSuccessful()) {
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                } else {
                                     db.collection("users").get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
@@ -70,15 +69,20 @@ public class SignInActivity extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                                            if (document.getId().toString() == email && document.getData().get("Type") == "Passenger") {
+                                                            if (document.getId().equals(email) && document.getData().get("Type").equals("Passenger")) {
                                                                 Intent intent = new Intent(SignInActivity.this, PassengerInterface.class);
+                                                                startActivity(intent);
                                                             } else if (document.getId().toString() == email && document.getData().get("Type") == "Bus") {
                                                                 Intent intent = new Intent(SignInActivity.this, BusInterface.class);
+                                                                startActivity(intent);
                                                             }
                                                         }
                                                     }
                                                 }
                                             });
+                                } else {
+
+                                    Toast.makeText(SignInActivity.this,"Unsuccessful",Toast.LENGTH_SHORT).show();
                                 }
 
 

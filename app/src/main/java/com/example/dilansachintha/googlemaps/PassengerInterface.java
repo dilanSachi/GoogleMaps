@@ -20,6 +20,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -45,8 +46,8 @@ public class PassengerInterface extends AppCompatActivity {
         setContentView(R.layout.activity_passenger);
 
         Button btn_route_search = (Button) findViewById(R.id.btn_search_route);
+        Button btn_sign_out = (Button) findViewById(R.id.btn_sign_out);
         final TextInputEditText txt_route = (TextInputEditText)findViewById(R.id.txt_route_no);
-        //final TextView txt_bus = (TextView) findViewById(R.id.txt_list_bus);
         final Button btn_map = (Button) findViewById(R.id.btnMap);
         btn_map.setVisibility(View.INVISIBLE);
 
@@ -109,6 +110,15 @@ public class PassengerInterface extends AppCompatActivity {
                 }
 
 
+            }
+        });
+
+        btn_sign_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(PassengerInterface.this,MainActivity.class);
+                startActivity(intent);
             }
         });
 

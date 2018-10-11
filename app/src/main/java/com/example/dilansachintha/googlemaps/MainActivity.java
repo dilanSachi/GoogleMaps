@@ -15,12 +15,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
+    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
 
     @Override
@@ -42,9 +46,41 @@ public class MainActivity extends AppCompatActivity {
     public void updateUI(FirebaseUser user){
         if(user !=null){
             Toast.makeText(MainActivity.this,"User is not null",Toast.LENGTH_SHORT).show();
+            getType(user);
         }else{
+            Toast.makeText(MainActivity.this,"User is null",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, SignInActivity.class);
             startActivity(intent);
         }
+    }
+    public void getType(FirebaseUser user){
+        final FirebaseUser currentUser = user;
+        db.collection("users").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            String email = currentUser.getEmail();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                Toast.makeText(MainActivity.this,document.getId(),Toast.LENGTH_SHORT).show();
+
+                                if (document.getId().equals(email) && document.getData().get("Type").equals("Passenger")) {
+                                    Toast.makeText(MainActivity.this,"Passenger",Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(MainActivity.this, PassengerInterface.class);
+                                    startActivity(intent);
+                                    break;
+                                } else if (document.getId().equals(email) && document.getData().get("Type").equals("Bus")) {
+                                    Toast.makeText(MainActivity.this,"Bus",Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(MainActivity.this, BusInterface.class);
+                                    startActivity(intent);
+                                    break;
+                                }else{
+                                    Toast.makeText(MainActivity.this,"No user exists",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    }
+                });
     }
 }
