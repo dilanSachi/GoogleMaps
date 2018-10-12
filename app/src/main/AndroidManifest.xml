@@ -9,8 +9,8 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@mipmap/bus"
+        android:label="Transpo"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -30,11 +30,12 @@
         </activity>
         <activity android:name=".MapActivity" />
         <activity android:name=".PassengerMap" />
-        <activity android:name=".PassengerInterface"/>
-        <activity android:name=".SignUpActivity" />
+        <activity android:name=".PassengerInterface" />
         <activity android:name=".SignInActivity" />
         <activity android:name=".BusInterface" />
-        <activity android:name=".BusMap"></activity>
+        <activity android:name=".BusMap" />
+        <activity android:name=".SignUpPassenger" />
+        <activity android:name=".SignUpDriver"></activity>
     </application>
 
 </manifest>

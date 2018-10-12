@@ -45,16 +45,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateUI(FirebaseUser user){
         if(user !=null){
-            Toast.makeText(MainActivity.this,"User is not null",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this,"User is not null",Toast.LENGTH_SHORT).show();
             getType(user);
         }else{
-            Toast.makeText(MainActivity.this,"User is null",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this,"User is null",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, SignInActivity.class);
             startActivity(intent);
         }
     }
     public void getType(FirebaseUser user){
         final FirebaseUser currentUser = user;
+
         db.collection("users").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -63,20 +64,29 @@ public class MainActivity extends AppCompatActivity {
                             String email = currentUser.getEmail();
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                Toast.makeText(MainActivity.this,document.getId(),Toast.LENGTH_SHORT).show();
-
-                                if (document.getId().equals(email) && document.getData().get("Type").equals("Passenger")) {
+                                if (document.getId().equals(email)) {
                                     Toast.makeText(MainActivity.this,"Passenger",Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(MainActivity.this, PassengerInterface.class);
                                     startActivity(intent);
-                                    break;
-                                } else if (document.getId().equals(email) && document.getData().get("Type").equals("Bus")) {
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                });
+        db.collection("driver").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            String email = currentUser.getEmail();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                if (document.getId().equals(email)) {
                                     Toast.makeText(MainActivity.this,"Bus",Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(MainActivity.this, BusInterface.class);
                                     startActivity(intent);
-                                    break;
-                                }else{
-                                    Toast.makeText(MainActivity.this,"No user exists",Toast.LENGTH_SHORT).show();
+                                    return;
                                 }
                             }
                         }

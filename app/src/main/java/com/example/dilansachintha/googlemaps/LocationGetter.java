@@ -39,7 +39,7 @@ public class LocationGetter {
 
     public void getter(){
         for(int i=0;i<bus_id.length;i++){
-            final DocumentReference docRef = dbase.collection("users").document(bus_id[i]);
+            final DocumentReference docRef = dbase.collection("driver").document(bus_id[i]);
 
             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
 

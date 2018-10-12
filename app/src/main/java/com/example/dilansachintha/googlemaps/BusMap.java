@@ -97,8 +97,6 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
         setContentView(R.layout.activity_bus_map);
         getLocationPermission();
 
-        //if dapn
-
         Button btnStartJourney = (Button) findViewById(R.id.btnStartJourney);
         final Button btnStopJourney = (Button) findViewById(R.id.btnStopJourney);
 
@@ -175,11 +173,14 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
+                getDeviceLocation();
+                //return;
             }
             gMap.setMyLocationEnabled(true);
             gMap.getUiSettings().setMyLocationButtonEnabled(false);
+        } else{
+            //return;
+            getLocationPermission();
         }
     }
-
 }

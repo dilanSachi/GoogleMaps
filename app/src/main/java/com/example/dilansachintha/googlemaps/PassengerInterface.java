@@ -19,14 +19,20 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.w3c.dom.Document;
+
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class PassengerInterface extends AppCompatActivity {
@@ -60,8 +66,43 @@ public class PassengerInterface extends AppCompatActivity {
                 if(route == ""){
                     Toast.makeText(PassengerInterface.this, "Enter a Route No", Toast.LENGTH_SHORT).show();
                 }else {
-                    db.collection("routes").get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    db.collection("routes").document(route).get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    Map<String,Object> routeMap = task.getResult().getData();
+                                    Set set = routeMap.keySet();
+                                    Iterator itr= set.iterator();
+
+                                    LinearLayout routeLayout = (LinearLayout) findViewById(R.id.linear_layout_bus);
+
+                                    bus_id = new String[set.size()];
+                                    int i = 0;
+
+                                    while(itr.hasNext()){
+                                        //itr.next()
+                                        TextView textView = new TextView(PassengerInterface.this);
+                                        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                                                LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                                        String bus = (String)itr.next();
+
+                                        textView.setText(bus);
+                                        textView.setPadding(30, 20, 20, 20);// in pixels (left, top, right, bottom)
+                                        routeLayout.addView(textView);
+
+                                        bus_id[i] =bus;
+                                        i++;
+                                    }
+                                    btn_map.setVisibility(View.VISIBLE);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(PassengerInterface.this, "Failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                            /*.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
@@ -106,7 +147,7 @@ public class PassengerInterface extends AppCompatActivity {
                                         Log.w(TAG, "Error getting documents.", task.getException());
                                     }
                                 }
-                            });
+                            });*/
                 }
 
 

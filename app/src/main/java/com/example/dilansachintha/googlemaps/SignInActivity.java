@@ -12,18 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -43,7 +37,8 @@ public class SignInActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         Button btnLogin = (Button) findViewById(R.id.btn_login);
-        Button btnSignUp = (Button) findViewById(R.id.btn_sign_up);
+        Button btnSignUpDriver = (Button) findViewById(R.id.btn_sign_up_driver);
+        Button btnSignUpPassenger = (Button) findViewById(R.id.btn_sign_up_passenger);
         final EditText txtEmail = (EditText) findViewById(R.id.txt_email);
         final EditText txtPassword = (EditText) findViewById(R.id.txt_password);
 
@@ -67,34 +62,53 @@ public class SignInActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if (task.isSuccessful()) {
+                                                        Toast.makeText(SignInActivity.this,"1",Toast.LENGTH_SHORT).show();
                                                         for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                                            if (document.getId().equals(email) && document.getData().get("Type").equals("Passenger")) {
+                                                            if (document.getId().equals(email)) {
                                                                 Intent intent = new Intent(SignInActivity.this, PassengerInterface.class);
                                                                 startActivity(intent);
-                                                            } else if (document.getId().equals(email) && document.getData().get("Type").equals("Bus")) {
+                                                                return;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                    db.collection("driver").get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(SignInActivity.this,"2",Toast.LENGTH_SHORT).show();
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            if (document.getId().equals(email)) {
                                                                 Intent intent = new Intent(SignInActivity.this, BusInterface.class);
                                                                 startActivity(intent);
+                                                                return;
                                                             }
                                                         }
                                                     }
                                                 }
                                             });
                                 } else {
-
                                     Toast.makeText(SignInActivity.this,"Unsuccessful",Toast.LENGTH_SHORT).show();
                                 }
-
-
-
-                                    //Intent intent = new Intent(SignInActivity.this,)
-                                    //Toast.makeText(, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                    //updateUI(null);
-
-
-                                // ...
                             }
                         });
+            }
+        });
+
+        btnSignUpDriver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignInActivity.this, SignUpDriver.class);
+                startActivity(intent);
+            }
+        });
+        btnSignUpPassenger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignInActivity.this, SignUpPassenger.class);
+                startActivity(intent);
             }
         });
 

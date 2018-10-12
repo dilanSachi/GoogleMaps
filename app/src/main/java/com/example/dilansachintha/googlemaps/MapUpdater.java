@@ -61,7 +61,7 @@ public class MapUpdater extends Thread {
 
                     String email = user.getEmail();
 
-                    DocumentReference docRef = db.collection("users").document(email);
+                    DocumentReference docRef = db.collection("driver").document(email);
 
                     docRef.update("Location", geoPoint).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
