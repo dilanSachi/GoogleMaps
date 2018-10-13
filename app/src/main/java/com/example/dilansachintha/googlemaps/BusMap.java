@@ -58,6 +58,10 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
 
         try {
             if (mLocationPermissionGranted) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    getLocationPermission();
+                }
                 final Task location = mFusedLocationProviderClient.getLastLocation();
                 location.addOnCompleteListener(new OnCompleteListener() {
                     @Override
@@ -65,7 +69,12 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: Found your location");
                             Location currentLocation = (Location) task.getResult();
+                            while (currentLocation==null){
+                                currentLocation = (Location) task.getResult();
+                                Toast.makeText(BusMap.this, "Null", Toast.LENGTH_SHORT).show();
+                            }
                             myLocation = currentLocation;
+                            Toast.makeText(BusMap.this, "Not null", Toast.LENGTH_SHORT).show();
                             //System.out.println(currentLocation.toString());
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
 
@@ -75,8 +84,9 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
                     }
                 });
             }
-        } catch (SecurityException e) {
+        } catch (Exception e) {
             Log.d(TAG, "getDeviceLocation: " + e.getMessage());
+            Toast.makeText(BusMap.this, "Error, Go back and select again", Toast.LENGTH_SHORT).show();
         }
     }
 

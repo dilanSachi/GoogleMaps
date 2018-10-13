@@ -45,16 +45,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="32dp"
         android:text="Search"
-        app:layout_constraintBottom_toTopOf="@+id/linear_layout_bus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_route"
-        app:layout_constraintVertical_bias="0.842" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_route" />
 
     <LinearLayout
         android:id="@+id/linear_layout_bus"
@@ -62,13 +59,14 @@
         android:layout_height="207dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="212dp"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/btn_search_route"></LinearLayout>
 
     <Button
         android:id="@+id/btn_sign_out"
