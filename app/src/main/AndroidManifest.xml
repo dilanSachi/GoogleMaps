@@ -35,6 +35,7 @@
         <activity android:name=".BusInterface" />
         <activity android:name=".BusMap" />
         <activity android:name=".SignUpPassenger" />
+        <activity android:name=".Pay"/>
         <activity android:name=".SignUpDriver"></activity>
     </application>
 

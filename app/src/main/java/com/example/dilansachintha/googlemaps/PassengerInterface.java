@@ -55,6 +55,8 @@ public class PassengerInterface extends AppCompatActivity {
         Button btn_sign_out = (Button) findViewById(R.id.btn_sign_out);
         final TextInputEditText txt_route = (TextInputEditText)findViewById(R.id.txt_route_no);
         final Button btn_map = (Button) findViewById(R.id.btn_passenger_Map);
+        Button btnPay = (Button) findViewById(R.id.btn_pay_passenger);
+
         btn_map.setVisibility(View.INVISIBLE);
 
         btn_route_search.setOnClickListener(new View.OnClickListener() {
@@ -102,52 +104,6 @@ public class PassengerInterface extends AppCompatActivity {
                             Toast.makeText(PassengerInterface.this, "Failed", Toast.LENGTH_SHORT).show();
                         }
                     });
-                            /*.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            Log.d(TAG, document.getId() + " => " + document.getData());
-
-                                            //Toast.makeText(PassengerMap.this, document.getId(), Toast.LENGTH_SHORT).show();
-
-                                            Map<String,Object> data = document.getData();
-                                            //System.out.println(data.containsKey("Bus")+"fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-
-                                            List<String> group = (List<String>) data.get("Bus");
-
-                                            if(document.getId().equals(route)){
-                                                Toast.makeText(PassengerInterface.this, "Found the Route No", Toast.LENGTH_SHORT).show();
-
-                                                Toast.makeText(PassengerInterface.this, group.get(0), Toast.LENGTH_SHORT).show();
-
-                                                LinearLayout routeLayout = (LinearLayout) findViewById(R.id.linear_layout_bus);
-
-                                                bus_id = new String[group.size()];
-
-                                                for(int i=0; i< group.size();i++){
-                                                    TextView textView = new TextView(PassengerInterface.this);
-                                                    textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                                                            LinearLayout.LayoutParams.WRAP_CONTENT));
-                                                    textView.setText(group.get(i));
-                                                    textView.setPadding(30, 20, 20, 20);// in pixels (left, top, right, bottom)
-                                                    routeLayout.addView(textView);
-
-                                                    bus_id[i] =(String ) group.get(i);
-                                                }
-
-                                                btn_map.setVisibility(View.VISIBLE);
-
-                                            }else{
-                                                Toast.makeText(PassengerInterface.this, "Coudn't find a Route No", Toast.LENGTH_SHORT).show();
-                                            }
-
-                                        }
-                                    } else {
-                                        Log.w(TAG, "Error getting documents.", task.getException());
-                                    }
-                                }
-                            });*/
                 }
 
 
@@ -159,6 +115,14 @@ public class PassengerInterface extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(PassengerInterface.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PassengerInterface.this, Pay.class);
                 startActivity(intent);
             }
         });

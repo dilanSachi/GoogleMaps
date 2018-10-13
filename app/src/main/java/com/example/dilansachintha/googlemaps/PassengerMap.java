@@ -59,7 +59,7 @@ public class PassengerMap extends AppCompatActivity implements OnMapReadyCallbac
                             Log.d(TAG, "onComplete: Found your location");
                             Location currentLocation = (Location) task.getResult();
                             myLocation = currentLocation;
-                            System.out.println(currentLocation.toString());
+                            //System.out.println(currentLocation.toString());
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
 
                         } else {
