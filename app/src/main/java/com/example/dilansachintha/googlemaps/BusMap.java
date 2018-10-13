@@ -22,9 +22,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
@@ -92,7 +95,13 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final String[] bus_id= getIntent().getStringArrayExtra("bus_id");
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        final String email = user.getEmail();
+
+        final DocumentReference docRef = db.collection("driver").document(email);
 
         setContentView(R.layout.activity_bus_map);
         getLocationPermission();
@@ -107,6 +116,8 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
 
                 mapUpdater = new MapUpdater(mFusedLocationProviderClient,BusMap.this, db);
 
+                docRef.update("Active", true);
+
                 mapUpdater.start();
             }
         });
@@ -114,6 +125,7 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
         btnStopJourney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                docRef.update("Active", false);
                 mapUpdater.setCheck(false);
             }
         });
