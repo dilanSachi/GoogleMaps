@@ -39,6 +39,7 @@ public class BusInterface extends AppCompatActivity {
 
         Button btnMap = (Button) findViewById(R.id.btn_bus_map);
         Button btnSignOut = (Button) findViewById(R.id.btn_sign_out);
+        Button refresh = (Button) findViewById(R.id.refresh);
 
         final TextView Points = (TextView) findViewById(R.id.points);
 
@@ -61,12 +62,30 @@ public class BusInterface extends AppCompatActivity {
                     }
                 });
 
-        btnMap.setOnClickListener(new View.OnClickListener() {
+        refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                db.collection("driver").get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        Log.d(TAG, document.getId() + " => " + document.getData());
 
+                                        if (document.getId().equals(user)) {
+                                            Points.setText("My Points: " + document.getLong("Points").toString());
+
+                                        } else {}
+                                    }
+                                } else {
+                                    Log.w(TAG, "Error getting documents.", task.getException());
+                                }
+                            }
+                        });
             }
         });
+
 
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
