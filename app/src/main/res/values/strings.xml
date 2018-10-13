@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Google Maps</string>
     <string name="google_maps_API_key">AIzaSyBG20cAZQbkSSwK93vvKmu14k0k4ycDsQc</string>
+    <string name="title_activity_available__buses">activity_available__buses</string>
+    <string name="title_activity_availablebuses">availablebuses</string>
 </resources>

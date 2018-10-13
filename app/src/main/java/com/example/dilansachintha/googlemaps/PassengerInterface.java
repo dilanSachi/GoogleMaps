@@ -12,7 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,8 @@ public class PassengerInterface extends AppCompatActivity {
 
     private String[] bus_id;
 
+    Button newbtn;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +51,11 @@ public class PassengerInterface extends AppCompatActivity {
 
         Button btn_route_search = (Button) findViewById(R.id.btn_search_route);
         Button btn_sign_out = (Button) findViewById(R.id.btn_sign_out);
+
         final TextInputEditText txt_route = (TextInputEditText)findViewById(R.id.txt_route_no);
         final Button btn_map = (Button) findViewById(R.id.btn_passenger_Map);
+
+
         btn_map.setVisibility(View.INVISIBLE);
 
         btn_route_search.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +95,8 @@ public class PassengerInterface extends AppCompatActivity {
                                                     TextView textView = new TextView(PassengerInterface.this);
                                                     textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                                                             LinearLayout.LayoutParams.WRAP_CONTENT));
-                                                    textView.setText(group.get(i));
+                                                    //textView.setText(group.get(i));
+                                                    addButton(group.get(i));
                                                     textView.setPadding(30, 20, 20, 20);// in pixels (left, top, right, bottom)
                                                     routeLayout.addView(textView);
 
@@ -96,6 +104,7 @@ public class PassengerInterface extends AppCompatActivity {
                                                 }
 
                                                 btn_map.setVisibility(View.VISIBLE);
+
 
                                             }else{
                                                 Toast.makeText(PassengerInterface.this, "Coudn't find a Route No", Toast.LENGTH_SHORT).show();
@@ -129,8 +138,24 @@ public class PassengerInterface extends AppCompatActivity {
             }
         });
 
+
+
     }
 
+    public void addButton(final String name){
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linear_layout_bus);
+        newbtn = new Button(this);
+        newbtn.setText(name);
+        layout.addView(newbtn);
+        newbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent bookintent = new Intent(PassengerInterface.this,availablebuses.class);
+                bookintent.putExtra("parameter", name);
+                startActivity(bookintent);
+            }
+        });
+    }
     private void init(){
 
         if(isServicesOK()){
