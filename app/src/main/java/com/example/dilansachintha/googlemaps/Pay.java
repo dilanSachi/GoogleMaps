@@ -73,14 +73,10 @@ public class Pay extends AppCompatActivity {
 //                                        Toast.makeText(Pay.this, document.getId(), Toast.LENGTH_SHORT).show();
 
                                 if (document.getId().equals(user)) {
-//                                            Toast.makeText(Pay.this, "Found the Route No", Toast.LENGTH_SHORT).show();
-
 //
-                                    Points.setText("My Points: " + document.getLong("points").toString());
-                                    myPoint = document.getLong("points");
-                                } else {
-//                                            Toast.makeText(Pay.this, "Coudn't find a Route No", Toast.LENGTH_SHORT).show();
-                                }
+                                    Points.setText("My Points: " + document.getLong("Points").toString());
+                                    myPoint = document.getLong("Points");
+                                } else {}
 
                             }
                         } else {
@@ -164,8 +160,8 @@ public class Pay extends AppCompatActivity {
 //                                            Toast.makeText(Pay.this, "Found the Route No", Toast.LENGTH_SHORT).show();
 
 //
-                                                                                Points.setText("My Points: " + document.getLong("points").toString());
-                                                                                myPoint = document.getLong("points");
+                                                                                Points.setText("My Points: " + document.getLong("Points").toString());
+                                                                                myPoint = document.getLong("Points");
                                                                             } else {
 //                                            Toast.makeText(Pay.this, "Coudn't find a Route No", Toast.LENGTH_SHORT).show();
                                                                             }
@@ -200,7 +196,7 @@ public class Pay extends AppCompatActivity {
 
 
                                                         washingtonRef
-                                                                .update("points", res)
+                                                                .update("Points", res)
                                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                     @Override
                                                                     public void onSuccess(Void aVoid) {
