@@ -57,7 +57,7 @@ public class SignUpPassenger extends AppCompatActivity {
                                     if (task.isSuccessful()) {
 
                                         Map<String, Object> user = new HashMap<>();
-                                        user.put("Points", "100");
+                                        user.put("Points", 100);
 
                                         db.collection("users").document(email)
                                                 .set(user)

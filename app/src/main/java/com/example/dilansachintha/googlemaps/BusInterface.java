@@ -2,28 +2,64 @@ package com.example.dilansachintha.googlemaps;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class BusInterface extends AppCompatActivity {
 
     private static final int ERROR_DIALOG_REQUEST = 9001;
+
+    private String user;
+
+    private static final String TAG = "BusInterface";
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_interface);
 
+        user = mAuth.getCurrentUser().getEmail();
+
         Button btnMap = (Button) findViewById(R.id.btn_bus_map);
         Button btnSignOut = (Button) findViewById(R.id.btn_sign_out);
+
+        final TextView Points = (TextView) findViewById(R.id.points);
+
+        db.collection("driver").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                if (document.getId().equals(user)) {
+                                    Points.setText("My Points: " + document.getLong("Points").toString());
+
+                                } else {}
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
 
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override

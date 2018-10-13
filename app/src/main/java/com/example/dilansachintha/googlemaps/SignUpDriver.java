@@ -68,7 +68,8 @@ public class SignUpDriver extends AppCompatActivity {
                                         driver.put("BusNum",busNo);
                                         driver.put("route",route);
                                         driver.put("Seats",seats);
-                                        driver.put("Points", "100");
+                                        driver.put("Points", 0);
+                                        driver.put("active", false);
 
                                         db.collection("driver").document(email)
                                                 .set(driver, SetOptions.merge())

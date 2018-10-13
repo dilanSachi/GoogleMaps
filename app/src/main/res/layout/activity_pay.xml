@@ -100,15 +100,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginBottom="8dp"
         android:text="0"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/SpinnerOne"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.961"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.095"
         tools:id="Points"
         tools:layout_width="150"
         tools:text="My Points: 0" />
@@ -135,8 +132,8 @@
 
     <Button
         android:id="@+id/search"
-        android:layout_width="64dp"
-        android:layout_height="38dp"
+        android:layout_width="106dp"
+        android:layout_height="42dp"
         android:layout_marginEnd="92dp"
         android:layout_marginRight="92dp"
         android:layout_marginBottom="8dp"
