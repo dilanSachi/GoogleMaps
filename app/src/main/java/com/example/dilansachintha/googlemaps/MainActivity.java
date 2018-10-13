@@ -45,10 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateUI(FirebaseUser user){
         if(user !=null){
-            //Toast.makeText(MainActivity.this,"User is not null",Toast.LENGTH_SHORT).show();
             getType(user);
         }else{
-            //Toast.makeText(MainActivity.this,"User is null",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, SignInActivity.class);
             startActivity(intent);
         }
@@ -65,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 if (document.getId().equals(email)) {
-                                    Toast.makeText(MainActivity.this,"Passenger",Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(MainActivity.this, PassengerInterface.class);
                                     startActivity(intent);
                                     return;
@@ -83,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 if (document.getId().equals(email)) {
-                                    Toast.makeText(MainActivity.this,"Bus",Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(MainActivity.this, BusInterface.class);
                                     startActivity(intent);
                                     return;

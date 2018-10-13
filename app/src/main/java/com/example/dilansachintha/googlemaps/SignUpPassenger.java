@@ -48,7 +48,6 @@ public class SignUpPassenger extends AppCompatActivity {
                 String password2 = txt_password2.getText().toString();
 
                 if(password.equals(password2)){
-                    Toast.makeText(SignUpPassenger.this,"Passwords match",Toast.LENGTH_SHORT).show();
 
                     mAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(SignUpPassenger.this, new OnCompleteListener<AuthResult>() {

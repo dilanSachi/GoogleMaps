@@ -49,20 +49,16 @@ public class SignInActivity extends AppCompatActivity {
                 final String email = txtEmail.getText().toString();
                 String password = txtPassword.getText().toString();
 
-                Toast.makeText(SignInActivity.this,"Sign in started",Toast.LENGTH_SHORT).show();
-
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(SignInActivity.this,"Database gave data",Toast.LENGTH_SHORT).show();
                                 if (task.isSuccessful()) {
                                     db.collection("users").get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if (task.isSuccessful()) {
-                                                        Toast.makeText(SignInActivity.this,"1",Toast.LENGTH_SHORT).show();
                                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                                             if (document.getId().equals(email)) {
                                                                 Intent intent = new Intent(SignInActivity.this, PassengerInterface.class);
@@ -78,7 +74,6 @@ public class SignInActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if (task.isSuccessful()) {
-                                                        Toast.makeText(SignInActivity.this,"2",Toast.LENGTH_SHORT).show();
                                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                                             if (document.getId().equals(email)) {
                                                                 Intent intent = new Intent(SignInActivity.this, BusInterface.class);
@@ -111,10 +106,5 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-    }
-
-    public void updateUI(FirebaseUser user){
-
     }
 }

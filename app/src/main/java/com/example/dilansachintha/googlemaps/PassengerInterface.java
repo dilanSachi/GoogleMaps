@@ -82,7 +82,6 @@ public class PassengerInterface extends AppCompatActivity {
                                     int i = 0;
 
                                     while(itr.hasNext()){
-                                        //itr.next()
                                         TextView textView = new TextView(PassengerInterface.this);
                                         textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                                                 LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -148,11 +147,8 @@ public class PassengerInterface extends AppCompatActivity {
     }
 
     public boolean isServicesOK(){
-        Log.d(TAG,"isServicesOK: checking google services version");
         int availability = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(PassengerInterface.this);
         if(availability == ConnectionResult.SUCCESS){
-            Log.d(TAG,"isServicesOK: Google Play Services is working");
-            Toast.makeText(PassengerInterface.this,"Google Play Services are working",Toast.LENGTH_SHORT).show();
             return true;
         }else if(GoogleApiAvailability.getInstance().isUserResolvableError(availability)){
             Log.d(TAG, "isServicesOK: an error occured but we can fix it");

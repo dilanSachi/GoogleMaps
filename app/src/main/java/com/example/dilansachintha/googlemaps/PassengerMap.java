@@ -41,12 +41,11 @@ public class PassengerMap extends AppCompatActivity implements OnMapReadyCallbac
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-    private static Location myLocation;
+    //private static Location myLocation;
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
 
     private void getDeviceLocation() {
-        Log.d(TAG, "getDeviceLocation: getting device location");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         try {
@@ -56,9 +55,8 @@ public class PassengerMap extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "onComplete: Found your location");
                             Location currentLocation = (Location) task.getResult();
-                            myLocation = currentLocation;
+                            //myLocation = currentLocation;
                             //System.out.println(currentLocation.toString());
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
 
@@ -74,13 +72,11 @@ public class PassengerMap extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void moveCamera(LatLng latLng, float zoom) {
-        Log.d(TAG, "moveCamera: moving camera to : lnt: " + latLng.latitude + " lng : " + latLng.longitude);
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
     private void initMap() {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        Log.d(TAG, "initMap: Initializing map");
         mapFragment.getMapAsync(PassengerMap.this);
     }
 
@@ -135,12 +131,10 @@ public class PassengerMap extends AppCompatActivity implements OnMapReadyCallbac
                     for (int i = 0; i < grantResults.length; i++) {
                         if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                             mLocationPermissionGranted = false;
-                            Log.d(TAG, "onRequestPermissionsResult: permission denied");
                             return;
                         }
                     }
                     mLocationPermissionGranted = true;
-                    Log.d(TAG, "onRequestPermissionsResult: permission granted");
                     initMap();
                 }
             }
@@ -150,8 +144,6 @@ public class PassengerMap extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
-        Log.d(TAG, "onMapReady: Map is Ready");
-        Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
 
         if (mLocationPermissionGranted) {
             getDeviceLocation();

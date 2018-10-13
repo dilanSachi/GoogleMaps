@@ -55,8 +55,6 @@ public class SignUpDriver extends AppCompatActivity {
                 final String busNo = txt_bus_no.getText().toString();
 
                 if(password.equals(password2)){
-                    Toast.makeText(SignUpDriver.this,"Passwords match",Toast.LENGTH_SHORT).show();
-
                     mAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(SignUpDriver.this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -77,8 +75,6 @@ public class SignUpDriver extends AppCompatActivity {
                                                         Toast.makeText(SignUpDriver.this,"Signed Up Successfully",Toast.LENGTH_SHORT).show();
 
                                                         Map<String,Object> routes = new HashMap<>();
-                                                        //String[] bus = new String[1];
-                                                        //bus[0] = email;
                                                         routes.put(email,"");
 
                                                         db.collection("routes").document(route).set(routes,SetOptions.merge());

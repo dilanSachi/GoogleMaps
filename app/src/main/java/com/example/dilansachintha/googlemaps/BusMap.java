@@ -67,19 +67,16 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "onComplete: Found your location");
                             Location currentLocation = (Location) task.getResult();
                             while (currentLocation==null){
                                 currentLocation = (Location) task.getResult();
-                                Toast.makeText(BusMap.this, "Null", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BusMap.this, "Turn on location or wait a while", Toast.LENGTH_SHORT).show();
                             }
                             myLocation = currentLocation;
-                            Toast.makeText(BusMap.this, "Not null", Toast.LENGTH_SHORT).show();
-                            //System.out.println(currentLocation.toString());
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
 
                         } else {
-                            Log.d(TAG, "onComplete: failed to get current location");
+                            Toast.makeText(BusMap.this, "Error, Failed to get current location", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -91,13 +88,11 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
     }
 
     private void moveCamera(LatLng latLng, float zoom) {
-        Log.d(TAG, "moveCamera: moving camera to : lnt: " + latLng.latitude + " lng : " + latLng.longitude);
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
     private void initMap() {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        Log.d(TAG, "initMap: Initializing map");
         mapFragment.getMapAsync(BusMap.this);
     }
 
@@ -118,6 +113,7 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
 
         Button btnStartJourney = (Button) findViewById(R.id.btnStartJourney);
         final Button btnStopJourney = (Button) findViewById(R.id.btnStopJourney);
+        btnStopJourney.setVisibility(View.INVISIBLE);
 
         btnStartJourney.setOnClickListener(new View.OnClickListener() {
 
@@ -127,6 +123,7 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
                 mapUpdater = new MapUpdater(mFusedLocationProviderClient,BusMap.this, db);
 
                 docRef.update("Active", true);
+                btnStopJourney.setVisibility(View.VISIBLE);
 
                 mapUpdater.start();
             }
@@ -137,6 +134,7 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
             public void onClick(View v) {
                 docRef.update("Active", false);
                 mapUpdater.setCheck(false);
+                btnStopJourney.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -172,12 +170,10 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
                     for (int i = 0; i < grantResults.length; i++) {
                         if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                             mLocationPermissionGranted = false;
-                            Log.d(TAG, "onRequestPermissionsResult: permission denied");
                             return;
                         }
                     }
                     mLocationPermissionGranted = true;
-                    Log.d(TAG, "onRequestPermissionsResult: permission granted");
                     initMap();
                 }
             }
@@ -187,8 +183,6 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
-        Log.d(TAG, "onMapReady: Map is Ready");
-        Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
 
         if (mLocationPermissionGranted) {
             getDeviceLocation();
@@ -196,12 +190,10 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 getDeviceLocation();
-                //return;
             }
             gMap.setMyLocationEnabled(true);
             gMap.getUiSettings().setMyLocationButtonEnabled(false);
         } else{
-            //return;
             getLocationPermission();
         }
     }

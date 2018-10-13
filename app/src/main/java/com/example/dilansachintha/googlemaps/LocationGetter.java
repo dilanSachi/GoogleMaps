@@ -49,7 +49,6 @@ public class LocationGetter {
                 public void onEvent(@Nullable DocumentSnapshot snapshot,
                                     @Nullable FirebaseFirestoreException e) {
                     if (e != null) {
-                        Log.w(TAG, "Listen failed.", e);
                         Toast.makeText(activity, "Location get failed", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -61,7 +60,6 @@ public class LocationGetter {
 
                         marker.setPosition(new LatLng(loc.getLatitude(), loc.getLongitude()));
                         marker.setVisible(true);
-                        Toast.makeText(activity, "Location updated" +loc.getLatitude(), Toast.LENGTH_SHORT).show();
 
                     } else {
                         Log.d(TAG, "Current data: null");

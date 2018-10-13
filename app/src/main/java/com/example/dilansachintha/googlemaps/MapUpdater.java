@@ -63,12 +63,7 @@ public class MapUpdater extends Thread {
 
                     DocumentReference docRef = db.collection("driver").document(email);
 
-                    docRef.update("Location", geoPoint).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(myActivity, "Updated location successfully", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
+                    docRef.update("Location", geoPoint).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(myActivity, "Updating location failed", Toast.LENGTH_SHORT).show();
@@ -90,12 +85,9 @@ public class MapUpdater extends Thread {
             try {
                 Thread.sleep(3000);
                 update();
-                //Toast.makeText(MapActivity.this,"Thread wakened",Toast.LENGTH_SHORT).show();
-                //System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        //Toast.makeText(activity,"Thread wakened",Toast.LENGTH_SHORT).show();
     }
 }
