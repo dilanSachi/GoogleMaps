@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -41,9 +42,11 @@ public class LocationGetter {
         for(int i=0;i<bus_id.length;i++){
             final DocumentReference docRef = dbase.collection("driver").document(bus_id[i]);
 
+            final String mail = bus_id[i];
+
             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
 
-                final Marker marker = gMap.addMarker(new MarkerOptions().position(new LatLng(6.5,79)).title("Hey").visible(false));
+                final Marker marker = gMap.addMarker(new MarkerOptions().position(new LatLng(6.5,79)).title(mail).visible(false).icon(BitmapDescriptorFactory.fromResource(R.mipmap.newbus)));
 
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot snapshot,

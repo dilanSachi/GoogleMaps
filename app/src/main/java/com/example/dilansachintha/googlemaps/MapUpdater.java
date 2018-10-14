@@ -59,16 +59,20 @@ public class MapUpdater extends Thread {
 
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                    String email = user.getEmail();
+                    try {
+                        String email = user.getEmail();
 
-                    DocumentReference docRef = db.collection("driver").document(email);
+                        DocumentReference docRef = db.collection("driver").document(email);
 
-                    docRef.update("Location", geoPoint).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(myActivity, "Updating location failed", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        docRef.update("Location", geoPoint).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(myActivity, "Updating location failed", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }catch (NullPointerException e){
+                        //do nothing
+                    }
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

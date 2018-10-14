@@ -153,7 +153,7 @@ public class PassengerMap extends AppCompatActivity implements OnMapReadyCallbac
                 return;
             }
             gMap.setMyLocationEnabled(true);
-            gMap.getUiSettings().setMyLocationButtonEnabled(false);
+            gMap.getUiSettings().setMyLocationButtonEnabled(true);
         }
     }
 }

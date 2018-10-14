@@ -192,7 +192,7 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
                 getDeviceLocation();
             }
             gMap.setMyLocationEnabled(true);
-            gMap.getUiSettings().setMyLocationButtonEnabled(false);
+            gMap.getUiSettings().setMyLocationButtonEnabled(true);
         } else{
             getLocationPermission();
         }
