@@ -21,11 +21,7 @@ import com.google.firebase.firestore.GeoPoint;
 
 public class MapUpdater extends Thread {
 
-    private boolean check = true;
-
-    public void setCheck(boolean check) {
-        this.check = check;
-    }
+    public static boolean check = true;
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Activity activity;

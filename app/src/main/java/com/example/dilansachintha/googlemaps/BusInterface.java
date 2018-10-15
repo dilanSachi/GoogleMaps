@@ -91,6 +91,7 @@ public class BusInterface extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
+                MapUpdater.check = false;
                 Intent intent = new Intent(BusInterface.this,MainActivity.class);
                 startActivity(intent);
             }
@@ -109,8 +110,6 @@ public class BusInterface extends AppCompatActivity {
         if(isServicesOK()){
             Intent intent = new Intent(BusInterface.this, BusMap.class);
             startActivity(intent);
-        }else{
-
         }
     }
 

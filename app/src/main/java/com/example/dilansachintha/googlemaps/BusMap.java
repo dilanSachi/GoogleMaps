@@ -58,16 +58,13 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
 
         try {
             if (mLocationPermissionGranted) {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    getLocationPermission();
-                }
                 final Task location = mFusedLocationProviderClient.getLastLocation();
                 location.addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
                             Location currentLocation = (Location) task.getResult();
+                            Toast.makeText(BusMap.this, "If your location is not shown on map, Go back and open map again", Toast.LENGTH_SHORT).show();
                             while (currentLocation==null){
                                 currentLocation = (Location) task.getResult();
                                 Toast.makeText(BusMap.this, "Turn on location or wait a while", Toast.LENGTH_SHORT).show();
@@ -81,7 +78,7 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
                     }
                 });
             }
-        } catch (Exception e) {
+        } catch (SecurityException e) {
             Log.d(TAG, "getDeviceLocation: " + e.getMessage());
             Toast.makeText(BusMap.this, "Error, Go back and select again", Toast.LENGTH_SHORT).show();
         }
@@ -123,6 +120,7 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
                 mapUpdater = new MapUpdater(mFusedLocationProviderClient,BusMap.this, db);
 
                 docRef.update("Active", true);
+                MapUpdater.check = true;
                 btnStopJourney.setVisibility(View.VISIBLE);
 
                 mapUpdater.start();
@@ -133,7 +131,7 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 docRef.update("Active", false);
-                mapUpdater.setCheck(false);
+                MapUpdater.check = (false);
                 btnStopJourney.setVisibility(View.INVISIBLE);
             }
         });
@@ -189,7 +187,7 @@ public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                getDeviceLocation();
+                return;
             }
             gMap.setMyLocationEnabled(true);
             gMap.getUiSettings().setMyLocationButtonEnabled(true);

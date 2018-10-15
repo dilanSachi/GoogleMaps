@@ -55,9 +55,8 @@ public class PassengerMap extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
+                            Toast.makeText(PassengerMap.this, "If your location is not shown on map, Go back and open map again", Toast.LENGTH_SHORT).show();
                             Location currentLocation = (Location) task.getResult();
-                            //myLocation = currentLocation;
-                            //System.out.println(currentLocation.toString());
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
 
                         } else {

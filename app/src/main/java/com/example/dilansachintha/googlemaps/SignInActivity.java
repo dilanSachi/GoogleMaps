@@ -46,6 +46,8 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Toast.makeText(SignInActivity.this, "Signing In...", Toast.LENGTH_SHORT).show();
+
                 final String email = txtEmail.getText().toString();
                 String password = txtPassword.getText().toString();
 

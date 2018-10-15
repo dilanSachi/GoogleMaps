@@ -117,7 +117,7 @@ public class Pay extends AppCompatActivity {
 
 //                                            Toast.makeText(Pay.this, document.getId(), Toast.LENGTH_SHORT).show();
 
-                                            if ((document.getString("route").equals(route.getText().toString())) && (document.getBoolean("active").equals(true))) {
+                                            if ((document.getString("route").equals(route.getText().toString())) && (document.getBoolean("Active"))) {
 //                                                Toast.makeText(Pay.this, document.getString("BusNum"), Toast.LENGTH_SHORT).show();
                                                 bus.add(document.getString("BusNum"));
 //
@@ -267,7 +267,7 @@ public class Pay extends AppCompatActivity {
 
 
                                         } else {
-                                            result.setText("Invalid Route!");
+                                            result.setText("Invalid Route or no active buses in the route!");
                                             result.setVisibility(View.VISIBLE);
                                             spinner1.setVisibility(View.INVISIBLE);
                                             amount.setVisibility(View.INVISIBLE);
